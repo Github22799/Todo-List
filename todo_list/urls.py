@@ -19,5 +19,7 @@ from todo import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.todos, name='todos')
+    path('', views.home, name='home'),
+    path('todos/', views.todos, name='todos'),
+    path('completed', views.completed, name='completed'),
 ]

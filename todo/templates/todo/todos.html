@@ -1,0 +1,11 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+    {% for todo in todos %}
+        {% if todo.is_important %}<strong>{% endif %}
+        <h1>{{ todo.title }}</h1>
+        {% if todo.is_important %}</strong>{% endif %}
+        <h5>{{ todo.date_created }}</h5>
+        <h2>{{ todo.memo|truncatechars:100 }}</h2>
+    {% endfor %}
+{% endblock %}
