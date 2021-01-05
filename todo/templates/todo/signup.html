@@ -1,0 +1,17 @@
+{% extends 'todo/form.html' %}
+
+{% block form_name %}
+    <h1>Sign Up</h1>
+{% endblock %}
+
+{% block form %}
+    {{ form.as_p }}
+{% endblock %}
+
+{% block action %}
+    {% url 'signup' %}
+{% endblock %}
+
+{% block submit_button %}
+    <input class="btn btn-success" type="submit" name="submit" value="Sign Up">
+{% endblock %}

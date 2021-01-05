@@ -1,29 +1,67 @@
-{% extends 'todo/base.html' %}
+{% extends 'todo/wrapped.html' %}
 
-{% block content %}
+{# TODO seperate the completed and non-completed todos in different files so that each one is more customizable#}
+
+{% block to_wrapp %}
+
+    {% if todos|length == 0 %}
+        <div class="alert alert-warning" role="alert">
+            There is no todos to show here. <a href="{% url 'create' %}">Create!</a>
+        </div>
+    {% endif %}
 
     {% for todo in todos %}
 
-        <div style="padding: 0.5em;">
+        <form action="{% url 'complete' todo.pk %}" method="POST" id="complete_form{{ todo.pk }}">
+            {% csrf_token %}
+        </form>
+
+        <form action="{% url 'uncomplete' todo.pk %}" method="POST" id="uncomplete_form{{ todo.pk }}">
+            {% csrf_token %}
+        </form>
+
+        <form action="{% url 'edit' todo.pk %}" method="GET" id="edit_form{{ todo.pk }}">
+            {% csrf_token %}
+        </form>
+
+        <form action="{% url 'delete' todo.pk %}" method="POST" id="delete_form{{ todo.pk }}">
+            {% csrf_token %}
+        </form>
+
             <p>
-              <a
-                  class="btn {% if todo.is_important %} btn-danger {% else %} btn-primary {% endif %}"
-                  data-bs-toggle="collapse"
-                  href="#todo{{ todo.pk }}"
-                  role="button"
-                  aria-expanded="false"
-                  aria-controls="collapseExample"
-              >
-                  {{ todo.title }}
-              </a>
+                <div
+                    class="alert {% if todo.is_important %} alert-danger {% else %} alert-primary {% endif %}"
+                    data-bs-toggle="collapse"
+                    href="#todo{{ todo.pk }}"
+                    role="button"
+                    aria-expanded="false"
+                    aria-controls="collapseExample"
+                >
+                    <strong>{{ todo.title }}</strong>
+                </div>
             </p>
             <div class="collapse" id="todo{{ todo.pk }}">
-              <div class="card card-body">
-                  {{ todo.date_created }}<br>
-                  {{ todo.memo|truncatechars:100 }}
-              </div>
+                <div class="card card-body">
+                    Date created: {{ todo.date_created }}<br>
+                    {% if todo.date_completed != None %}
+                        Date completed: {{ todo.date_completed }}<br>
+                    {% endif %}
+                    <pre>{{ todo.memo }}</pre>
+                    <div>
+                        {% if todo.date_completed == None %}
+                        <button class="btn btn-success"
+                                onclick="document.getElementById('complete_form{{ todo.pk }}').submit()">Complete</button>
+                        {% else %}
+                            <button class="btn btn-warning"
+                                    onclick="document.getElementById('uncomplete_form{{ todo.pk }}').submit()">Uncomplete</button>
+                        {% endif %}
+                        <button class="btn btn-dark"
+                                onclick="document.getElementById('edit_form{{ todo.pk }}').submit()">Edit</button>
+                        <button class="btn btn-danger"
+                                onclick="document.getElementById('delete_form{{ todo.pk }}').submit()">Delete</button>
+                    </div>
+                </div>
             </div>
-        </div>
 
     {% endfor %}
 

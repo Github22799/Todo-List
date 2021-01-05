@@ -1,0 +1,19 @@
+{% extends 'todo/wrapped.html' %}
+
+{% block to_wrapp %}
+
+    {% block form_name %}{% endblock %}
+
+    {% if error_message %}
+        <div class="alert alert-warning" role="alert">
+            {{ error_message }}
+        </div>
+    {% endif %}
+
+    <form action="{% block action %}{% endblock %}" method="POST">
+    {% csrf_token %}
+    {% block form %}{% endblock %}
+    {% block submit_button %}{% endblock %}
+    </form>
+
+{% endblock %}

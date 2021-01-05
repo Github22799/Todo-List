@@ -1,0 +1,22 @@
+{% extends 'todo/base.html' %}
+
+{% block styles %}
+
+.todo_container {
+    border: 0.15em solid {% if border_color %}{{ border_color }}{% else %} #0d6efd {% endif %};
+    border-radius: 0.5em;
+    padding: 1em;
+}
+
+{% endblock %}
+
+
+{% block content %}
+
+        <div class="container todo_container">
+                {% block to_wrapp %}
+                {% endblock %}
+        </div>
+
+{% endblock %}
+

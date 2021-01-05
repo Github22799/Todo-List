@@ -1,4 +1,4 @@
-<html>
+<html lang="en">
 
     <head>
 
@@ -11,16 +11,16 @@
         {% endif %}
 
         <style>
-            .todo_container {
-                border: 0.15em solid {% if border_color %}{{ border_color }}{% else %} #0d6efd {% endif %};
-                border-radius: 0.5em;
-                padding: 1em;
-            }
+            {% block styles %}
+            {% endblock %}
         </style>
 
     </head>
 
     <body>
+        <form action = "{% url 'signout' %}" method="POST" id="signout_form">
+            {% csrf_token %}
+        </form>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 2em">
           <div class="container-fluid">
@@ -36,21 +36,25 @@
                   <a class="nav-link active" aria-current="page" href="{% url 'todos' %}">Todos</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'completed' %}">Completed</a>
+                    <a class="nav-link" href="{% url 'completed' %}">Completed</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'sign_out' %}">Sign out</a>
+                    <a href="{% url 'create' %}"><button class="btn btn-success" style="margin-left: 1em">Create</button></a>
                 </li>
               </ul>
+              <p>
+                  Signed in as {{ user }}.
+                  <a href="#" onclick="document.getElementById('signout_form').submit();">Sign out</a>
+              </p>
             </div>
           {% else %}
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                   <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                       <li class="nav-item">
-                          <a class="nav-link active" aria-current="page" href="{% url 'sign_in' %}">Sign in</a>
+                          <a class="nav-link active" aria-current="page" href="{% url 'signin' %}">Sign in</a>
                       </li>
                       <li class="nav-item">
-                          <a class="nav-link" href="{% url 'sign_up' %}">Sign up</a>
+                          <a class="nav-link" href="{% url 'signup' %}">Sign up</a>
                       </li>
                   </ul>
               </div>
@@ -59,9 +63,7 @@
           </div>
         </nav>
 
-        <div class="container todo_container">
-            {% block content %}{% endblock %}
-        </div>
+        {% block content %}{% endblock %}
 
     </body>
 </html>

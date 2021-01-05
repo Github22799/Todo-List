@@ -1,0 +1,16 @@
+{% extends 'todo/form.html' %}
+
+{% block form_name %}
+    <h1>Edit</h1>
+{% endblock %}
+
+{% block form %}
+    {{ form.as_p }}
+{% endblock %}
+
+{% block action %}
+{% endblock %}
+
+{% block submit_button %}
+    <input class="btn btn-primary" type="submit" name="submit" value="Edit">
+{% endblock %}
