@@ -6,10 +6,15 @@
 
         <div style="padding: 0.5em;">
             <p>
-              <a class="btn btn-primary" data-bs-toggle="collapse" href="#todo{{ todo.pk }}" role="button" aria-expanded="false" aria-controls="collapseExample">
-                  {% if todo.is_important %}<strong>{% endif %}
+              <a
+                  class="btn {% if todo.is_important %} btn-danger {% else %} btn-primary {% endif %}"
+                  data-bs-toggle="collapse"
+                  href="#todo{{ todo.pk }}"
+                  role="button"
+                  aria-expanded="false"
+                  aria-controls="collapseExample"
+              >
                   {{ todo.title }}
-                  {% if todo.is_important %}</strong>{% endif %}
               </a>
             </p>
             <div class="collapse" id="todo{{ todo.pk }}">

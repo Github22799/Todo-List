@@ -23,7 +23,7 @@ def todos(request):
             title='test title',
             memo='hello there this is a dummy text.',
             date_created=timezone.now(),
-            is_important=False
+            is_important=True
         ),
     ]
     return render(request, 'todo/todos.html', {'titile': 'Todos', 'todos': todos_list})
