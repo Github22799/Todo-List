@@ -1,0 +1,25 @@
+{% extends 'todo/base.html' %}
+
+{% block content %}
+
+    {% for todo in todos %}
+
+        <div style="padding: 0.5em;">
+            <p>
+              <a class="btn btn-primary" data-bs-toggle="collapse" href="#todo{{ todo.pk }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                  {% if todo.is_important %}<strong>{% endif %}
+                  {{ todo.title }}
+                  {% if todo.is_important %}</strong>{% endif %}
+              </a>
+            </p>
+            <div class="collapse" id="todo{{ todo.pk }}">
+              <div class="card card-body">
+                  {{ todo.date_created }}<br>
+                  {{ todo.memo|truncatechars:100 }}
+              </div>
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% endblock %}
