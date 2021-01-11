@@ -1,35 +1,41 @@
 from rest_framework import generics, permissions
 from todo.models import Todo
-from .serializers import TodosSerializer, PendingTodosSerializer
+from .serializers import TodosSerializer
 
 
-class TodosViewer(generics.ListCreateAPIView):
+class TodosViewerCommon:
+    serializer_class = TodosSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
 
+
+class TodosViewer(TodosViewerCommon, generics.ListCreateAPIView):
     def get_queryset(self):
-        return Todo.objects\
-            .filter(user=self.request.user, **self.filter_args())\
-            .order_by(self.order_args())
+        return Todo.objects \
+            .filter(user=self.request.user, **self.filter_args())
 
 
 class PendingTodosViewer(TodosViewer):
-    serializer_class = PendingTodosSerializer
 
     def filter_args(self):
         return {'date_completed__isnull': True}
 
-    def order_args(self):
-        return '-date_created'
+    def get_queryset(self):
+        return super().get_queryset().order_by('-date_created')
 
 
 class CompletedTodosViewer(TodosViewer):
-    serializer_class = TodosSerializer
 
     def filter_args(self):
         return {'date_completed__isnull': False}
 
-    def order_args(self):
-        return '-date_completed'
+    def get_queryset(self):
+        return super().get_queryset().order_by('-date_completed')
+
+
+class SingleTodoViewer(TodosViewerCommon, generics.RetrieveUpdateDestroyAPIView):
+    def get_queryset(self):
+        return Todo.objects \
+            .filter(user=self.request.user, id=self.kwargs['pk'])
