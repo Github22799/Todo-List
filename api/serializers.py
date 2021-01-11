@@ -14,3 +14,9 @@ class TodosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
         fields = ['id', 'title', 'memo', 'date_created', 'is_important']
+
+
+class TodosIDOnlySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ['id']
