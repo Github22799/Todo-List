@@ -1,6 +1,7 @@
 from django.utils import timezone
 from rest_framework import generics, permissions
 from rest_framework.exceptions import ValidationError
+from django.views.decorators.csrf import csrf_exempt
 
 from todo.models import Todo
 from .serializers import TodosSerializer, TodosIDOnlySerializer
@@ -77,3 +78,13 @@ class UncompleteTodoViewer(DateCompletedTodoEditBase):
 
     def set_date_completed(self, serializer):
         serializer.instance.date_completed = None
+
+
+@csrf_exempt
+def signup(request):  # creates a user and returns a token
+    pass
+
+
+@csrf_exempt
+def signin(request):  # returns a token
+    pass

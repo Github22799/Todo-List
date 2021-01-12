@@ -7,4 +7,8 @@ urlpatterns = [
     path('todos/<int:pk>/', views.SingleTodoViewer.as_view()),
     path('todos/<int:pk>/complete/', views.CompleteTodoViewer.as_view()),
     path('todos/<int:pk>/uncomplete/', views.UncompleteTodoViewer.as_view()),
+
+    # Auth
+    path('signin', views.signin),
+    path('signup', views.signup),
 ]
