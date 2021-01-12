@@ -67,6 +67,7 @@ def signup_POST(request):
     password2 = request.POST['password2']
 
     # TODO is this enough? may return different messages.
+    # TODO what if the username already exists?..
     if password1 == password2 and not form.errors:
         user = form.save()
         login(request, user)
